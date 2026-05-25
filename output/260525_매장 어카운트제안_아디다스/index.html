@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1920, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>CHILDY × adidas Kids — 매장 어카운트 승인 제안서</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <style>
@@ -18,69 +18,69 @@
       --gray-200: #e2e2e2;
       --gray-100: #f5f5f3;
       --white: #ffffff;
-      --slide-w: 1920px;
-      --slide-h: 1080px;
     }
     html, body {
       width: 100%; height: 100%;
       overflow: hidden;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #1a1a1a;
+      margin: 0; padding: 0;
     }
     .slides-wrapper {
-      width: var(--slide-w); height: var(--slide-h);
+      width: 1920px; height: 1080px;
       position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1);
       transform-origin: center center;
     }
     .slide {
       position: absolute; top: 0; left: 0;
-      width: var(--slide-w); height: var(--slide-h);
+      width: 1920px; height: 1080px;
       opacity: 0; visibility: hidden;
       transition: opacity 0.3s ease;
       display: flex; flex-direction: column;
       background: var(--white);
-      padding: 90px;
+      padding: 80px;
     }
     .slide.active { opacity: 1; visibility: visible; }
     .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; z-index: 100; }
     .nav-hint { position: fixed; bottom: 10px; right: 16px; font-size: 10px; color: #bbb; z-index: 100; pointer-events: none; }
     /* Shared header */
-    .sh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .sh-left { display: flex; align-items: center; gap: 12px; }
-    .sh-num { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; font-size: 18px; font-weight: 800; background: var(--accent); color: var(--white); }
-    .sh-title { font-size: 30px; font-weight: 700; color: var(--dark); }
-    .sh-page { font-size: 18px; color: var(--gray-400); }
+    .sh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .sh-left { display: flex; align-items: center; gap: 14px; }
+    .sh-num { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 10px; font-size: 22px; font-weight: 800; background: var(--accent); color: var(--white); }
+    .sh-title { font-size: 36px; font-weight: 700; color: var(--dark); }
+    .sh-page { font-size: 20px; color: var(--gray-400); }
 
     /* SLIDE 1 - Cover */
     .s1-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .s1-badge { font-size: 18px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.03em; padding: 10px 24px; border: 1px solid var(--gray-200); border-radius: 28px; }
-    .s1-body { flex: 1; display: flex; align-items: center; justify-content: center; gap: 120px; }
+    .s1-badge { font-size: 20px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.03em; padding: 12px 28px; border: 1px solid var(--gray-200); border-radius: 28px; }
+    .s1-body { flex: 1; display: flex; align-items: center; justify-content: center; gap: 100px; }
     .s1-left { flex: 0 1 auto; }
-    .s1-title { font-size: 64px; font-weight: 900; color: var(--dark); letter-spacing: -0.03em; line-height: 1.15; }
-    .s1-sub { font-size: 22px; color: var(--gray-600); margin-top: 20px; line-height: 1.6; }
-    .s1-points { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
-    .s1-points li { list-style: none; font-size: 22px; color: var(--gray-700); padding-left: 22px; position: relative; line-height: 1.4; }
-    .s1-points li::before { content: ''; position: absolute; left: 0; top: 12px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .s1-title { font-size: 72px; font-weight: 900; color: var(--dark); letter-spacing: -0.03em; line-height: 1.15; }
+    .s1-sub { font-size: 26px; color: var(--gray-600); margin-top: 24px; line-height: 1.6; }
+    .s1-points { margin-top: 28px; display: flex; flex-direction: column; gap: 16px; }
+    .s1-points li { list-style: none; font-size: 25px; color: var(--gray-700); padding-left: 24px; position: relative; line-height: 1.4; }
+    .s1-points li::before { content: ''; position: absolute; left: 0; top: 12px; width: 11px; height: 11px; border-radius: 50%; background: var(--accent); }
     .s1-img { width: 680px; height: 440px; border-radius: 20px; object-fit: cover; flex-shrink: 0; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
     .s1-foot { display: flex; gap: 48px; margin-top: 12px; }
-    .s1-foot dt { font-size: 14px; color: var(--gray-500); letter-spacing: 0.04em; }
-    .s1-foot dd { font-size: 20px; font-weight: 500; color: var(--gray-700); }
+    .s1-foot dt { font-size: 15px; color: var(--gray-500); letter-spacing: 0.04em; }
+    .s1-foot dd { font-size: 22px; font-weight: 500; color: var(--gray-700); }
     /* Cards */
-    .card { background: var(--gray-100); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .card__num { font-size: 52px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; }
+    .card { background: var(--gray-100); border-radius: 14px; padding: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .card__num { font-size: 60px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; }
     .card__num--accent { color: var(--accent); }
-    .card__label { font-size: 16px; color: var(--gray-500); margin-top: 8px; }
+    .card__label { font-size: 19px; color: var(--gray-500); margin-top: 10px; }
 
     /* Feature items */
-    .feat { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: var(--gray-100); border-radius: 10px; }
-    .feat__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
-    .feat__text { font-size: 20px; color: var(--gray-700); line-height: 1.4; }
+    .feat { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; background: var(--gray-100); border-radius: 10px; }
+    .feat__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+    .feat__text { font-size: 23px; color: var(--gray-700); line-height: 1.4; }
 
     /* Proposal cards */
-    .prop-card { background: var(--gray-100); border-radius: 14px; padding: 28px 30px; display: flex; flex-direction: column; justify-content: center; }
-    .prop-card__tag { font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 10px; }
-    .prop-card__title { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
-    .prop-card__desc { font-size: 20px; color: var(--gray-600); line-height: 1.5; }
+    .prop-card { background: var(--gray-100); border-radius: 14px; padding: 32px 34px; display: flex; flex-direction: column; justify-content: center; }
+    .prop-card__tag { font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 12px; }
+    .prop-card__title { font-size: 30px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .prop-card__desc { font-size: 22px; color: var(--gray-600); line-height: 1.5; }
   </style>
 </head>
 <body>
