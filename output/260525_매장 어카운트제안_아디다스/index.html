@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHILDY × adidas Kids — 매장 어카운트 승인 제안서</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --accent: #000000;
+      --accent-sub: #1a1a1a;
+      --dark: #1a1a1a;
+      --gray-700: #3d3d3d;
+      --gray-600: #555;
+      --gray-500: #888;
+      --gray-400: #aaa;
+      --gray-200: #e2e2e2;
+      --gray-100: #f5f5f3;
+      --white: #ffffff;
+    }
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #eee;
+    }
+    .slide {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease;
+      display: flex; flex-direction: column;
+      background: var(--white);
+      padding: 90px;
+    }
+    .slide.active { opacity: 1; visibility: visible; }
+    .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; z-index: 100; }
+    .nav-hint { position: fixed; bottom: 10px; right: 16px; font-size: 10px; color: #bbb; z-index: 100; pointer-events: none; }
+    /* Shared header */
+    .sh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .sh-left { display: flex; align-items: center; gap: 12px; }
+    .sh-num { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; font-size: 18px; font-weight: 800; background: var(--accent); color: var(--white); }
+    .sh-title { font-size: 30px; font-weight: 700; color: var(--dark); }
+    .sh-page { font-size: 18px; color: var(--gray-400); }
+
+    /* SLIDE 1 - Cover */
+    .s1-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .s1-badge { font-size: 18px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.03em; padding: 10px 24px; border: 1px solid var(--gray-200); border-radius: 28px; }
+    .s1-body { flex: 1; display: flex; align-items: center; justify-content: center; gap: 120px; }
+    .s1-left { flex: 0 1 auto; }
+    .s1-title { font-size: 64px; font-weight: 900; color: var(--dark); letter-spacing: -0.03em; line-height: 1.15; }
+    .s1-sub { font-size: 22px; color: var(--gray-600); margin-top: 20px; line-height: 1.6; }
+    .s1-points { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .s1-points li { list-style: none; font-size: 22px; color: var(--gray-700); padding-left: 22px; position: relative; line-height: 1.4; }
+    .s1-points li::before { content: ''; position: absolute; left: 0; top: 12px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .s1-img { width: 680px; height: 440px; border-radius: 20px; object-fit: cover; flex-shrink: 0; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .s1-foot { display: flex; gap: 48px; margin-top: 12px; }
+    .s1-foot dt { font-size: 14px; color: var(--gray-500); letter-spacing: 0.04em; }
+    .s1-foot dd { font-size: 20px; font-weight: 500; color: var(--gray-700); }
+    /* Cards */
+    .card { background: var(--gray-100); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .card__num { font-size: 52px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; }
+    .card__num--accent { color: var(--accent); }
+    .card__label { font-size: 16px; color: var(--gray-500); margin-top: 8px; }
+
+    /* Feature items */
+    .feat { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: var(--gray-100); border-radius: 10px; }
+    .feat__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+    .feat__text { font-size: 20px; color: var(--gray-700); line-height: 1.4; }
+
+    /* Proposal cards */
+    .prop-card { background: var(--gray-100); border-radius: 14px; padding: 28px 30px; display: flex; flex-direction: column; justify-content: center; }
+    .prop-card__tag { font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 10px; }
+    .prop-card__title { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .prop-card__desc { font-size: 20px; color: var(--gray-600); line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" style="width:16.7%"></div>
+  <div class="nav-hint">← → 방향키</div>
+  <div class="slides-wrapper" style="width:100%;height:100%;position:relative;">
+    <!-- SLIDE 1: COVER -->
+    <div class="slide active" data-slide="1">
+      <div class="s1-top">
+        <span style="font-size:28px; font-weight:900; letter-spacing:-0.02em; color:var(--dark);">CHILDY</span>
+        <span class="s1-badge">ACCOUNT PROPOSAL · 2026</span>
+      </div>
+      <div class="s1-body">
+        <div class="s1-left">
+          <h1 class="s1-title"><span style="color:var(--dark);">CHILDY</span> ×<br><span style="color:var(--accent);">adidas Kids</span></h1>
+          <p class="s1-sub">국내 No.1 키즈 스트릿 브랜드 그룹의<br>성수 오프라인 매장 아디다스 키즈 바잉 어카운트 승인 제안</p>
+          <ul class="s1-points">
+            <li>HIRO · GLGK · SANN 등 키즈 스트릿 브랜드 보유</li>
+            <li>성수 플래그십 매장 2개점 운영 중</li>
+          </ul>
+        </div>
+        <img class="s1-img" src="../../images/260525_매장 어카운트제안_아디다스/grok-image-cb3a8c67-94d1-41f3-8220-ad4c0166d2be (1).png" alt="CHILDY x adidas Kids">
+      </div>
+      <div class="s1-foot">
+        <dl><div><dt>DATE</dt><dd>2026. 05</dd></div></dl>
+        <dl><div><dt>COMPANY</dt><dd>(주)차일디</dd></div></dl>
+        <dl><div><dt>WEBSITE</dt><dd>childy.net</dd></div></dl>
+        <dl><div><dt>CONTACT</dt><dd>official@childy.co.kr</dd></div></dl>
+      </div>
+    </div>
+    <!-- SLIDE 2: 회사 및 브랜드 소개 -->
+    <div class="slide" data-slide="2">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">01</span><span class="sh-title">(주)차일디 & 브랜드 포트폴리오</span></div>
+        <span class="sh-page">02 / 06</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:28px; min-height:0;">
+        <!-- Left: Company Info -->
+        <div style="display:flex; flex-direction:column; gap:14px; min-height:0;">
+          <div>
+            <p style="font-size:32px; font-weight:800; color:var(--dark); line-height:1.3;">키즈 스트릿 패션 그룹<br>(주)차일디</p>
+            <p style="font-size:18px; color:var(--gray-600); margin-top:10px; line-height:1.5;">2020년 설립 · Pre IPO 단계 (530억 밸류)<br>임직원 101명 · 키즈 패션 브랜드 인큐베이팅 전문</p>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; flex:1; min-height:0;">
+            <div class="card">
+              <span class="card__num">101명</span>
+              <span class="card__label">임직원 수</span>
+            </div>
+            <div class="card">
+              <span class="card__num card__num--accent">530억</span>
+              <span class="card__label">기업 밸류에이션</span>
+            </div>
+            <div class="card">
+              <span class="card__num">7개</span>
+              <span class="card__label">오프라인 매장</span>
+            </div>
+            <div class="card">
+              <span class="card__num card__num--accent">Pre IPO</span>
+              <span class="card__label">투자 단계</span>
+            </div>
+          </div>
+          <div style="background:var(--accent); border-radius:12px; padding:18px 22px; color:var(--white);">
+            <p style="font-size:14px; font-weight:700; opacity:0.7; margin-bottom:4px;">주요 투자자</p>
+            <p style="font-size:20px; font-weight:600;">삼성증권 · 무신사 · 시그나이트(신세계) · 위벤처스</p>
+          </div>
+        </div>
+        <!-- Right: Brand Portfolio -->
+        <div style="display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
+          <div style="background:var(--gray-100); border-radius:12px; padding:22px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">HIRO</p>
+            <p style="font-size:22px; font-weight:700; color:var(--dark); margin-bottom:4px;">키즈 스트릿 No.1 브랜드</p>
+            <p style="font-size:17px; color:var(--gray-600); line-height:1.5;">2018 론칭 · 스케이트보드 문화 기반<br>팬덤 D2C · 매주 수요일 드롭 · 자사몰 매출 90%</p>
+          </div>
+          <div style="background:var(--gray-100); border-radius:12px; padding:22px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">GLGK</p>
+            <p style="font-size:22px; font-weight:700; color:var(--dark); margin-bottom:4px;">Good Life Good Kids</p>
+            <p style="font-size:17px; color:var(--gray-600); line-height:1.5;">차일디 자체 브랜드 · 키즈 스트릿 라이프스타일<br>아이와 부모가 함께하는 패밀리 어반 브랜드</p>
+          </div>
+          <div style="background:var(--gray-100); border-radius:12px; padding:22px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">SANN</p>
+            <p style="font-size:22px; font-weight:700; color:var(--dark); margin-bottom:4px;">Stand By Us — 블랙 스트릿 키즈</p>
+            <p style="font-size:17px; color:var(--gray-600); line-height:1.5;">GLGK 서브라인 · 블랙 톤 중심 강렬한 스트릿 무드<br>데님·카고·윈드브레이커 등 헤리티지 아이템</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SLIDE 3: 마켓 파워 & 팬덤 -->
+    <div class="slide" data-slide="3">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">02</span><span class="sh-title">브랜드 마켓 파워 & 팬덤</span></div>
+        <span class="sh-page">03 / 06</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1.2fr 0.8fr; gap:24px; min-height:0;">
+        <div style="display:flex; flex-direction:column; min-height:0;">
+          <div>
+            <p style="font-size:32px; font-weight:800; color:var(--dark); line-height:1.3;">팝업마다 오픈런,<br>팬덤이 증명하는 브랜드 파워</p>
+            <p style="font-size:18px; color:var(--gray-600); margin-top:8px;">매주 수요일 드롭 · 콘서트 티켓팅급 구매 경쟁 · 자발적 팬 커뮤니티</p>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:16px; margin-bottom:14px;">
+            <div class="card">
+              <span class="card__num">90%</span>
+              <span class="card__label">자사몰 매출 비중</span>
+            </div>
+            <div class="card">
+              <span class="card__num card__num--accent">153만</span>
+              <span class="card__label">최고 페이지뷰(PV)</span>
+            </div>
+            <div class="card">
+              <span class="card__num">21,565</span>
+              <span class="card__label">히로매니아 커뮤니티</span>
+            </div>
+            <div class="card">
+              <span class="card__num card__num--accent">1분 30초</span>
+              <span class="card__label">인기 제품 완판 시간</span>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div style="background:var(--accent); border-radius:12px; padding:18px; text-align:center; color:var(--white);">
+              <p style="font-size:14px; opacity:0.7; margin-bottom:4px;">부산 신세계 팝업</p>
+              <p style="font-size:22px; font-weight:800;">2만명 · 5.2억</p>
+              <p style="font-size:13px; opacity:0.7; margin-top:2px;">10일간</p>
+            </div>
+            <div style="background:var(--accent); border-radius:12px; padding:18px; text-align:center; color:var(--white);">
+              <p style="font-size:14px; opacity:0.7; margin-bottom:4px;">대구 현대 팝업</p>
+              <p style="font-size:22px; font-weight:800;">7천명 · 3.8억</p>
+              <p style="font-size:13px; opacity:0.7; margin-top:2px;">7일간 · 15평</p>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr 1fr; gap:8px; min-height:0; overflow:hidden;">
+          <img src="../../images/260525_매장 어카운트제안_아디다스/wan1.png" alt="완판 사례" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+          <img src="../../images/260525_매장 어카운트제안_아디다스/wan2.png" alt="완판 사례" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+          <img src="../../images/260525_매장 어카운트제안_아디다스/wan3.png" alt="완판 사례" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+          <img src="../../images/260525_매장 어카운트제안_아디다스/wan4.png" alt="완판 사례" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+          <img src="../../images/260525_매장 어카운트제안_아디다스/wan5.png" alt="완판 사례" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+          <img src="../../images/260525_매장 어카운트제안_아디다스/wan6.jpeg" alt="완판 사례" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+        </div>
+      </div>
+    </div>
+    <!-- SLIDE 4: 성수 오프라인 매장 -->
+    <div class="slide" data-slide="4">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">03</span><span class="sh-title">성수 오프라인 매장 — HIRO · GLGK</span></div>
+        <span class="sh-page">04 / 06</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:24px; min-height:0; overflow:hidden;">
+        <!-- Left: HIRO Store -->
+        <div style="display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
+          <div style="background:var(--accent); border-radius:12px; padding:22px 26px; color:var(--white);">
+            <p style="font-size:14px; font-weight:700; opacity:0.7; margin-bottom:4px;">FLAGSHIP STORE</p>
+            <p style="font-size:26px; font-weight:800;">HIRO 성수 플래그십</p>
+            <p style="font-size:16px; opacity:0.85; margin-top:6px; line-height:1.5;">서울 성동구 성수동 · 2025 오픈<br>의류 판매 + 발매일 웨이팅 + 스케이트·피자 문화 체험 복합 공간</p>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; flex:1; min-height:0; overflow:hidden;">
+            <img src="../../images/260525_매장 어카운트제안_아디다스/히로 성수점.png" alt="히로 성수점" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+            <img src="../../images/260525_매장 어카운트제안_아디다스/히로 성수점2.png" alt="히로 성수점2" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+            <img src="../../images/260525_매장 어카운트제안_아디다스/히로 성수점6.png" alt="히로 성수점6" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+            <img src="../../images/260525_매장 어카운트제안_아디다스/히로 성수점4.png" alt="히로 성수점4" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+          </div>
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1; background:var(--gray-100); border-radius:8px; padding:12px 16px; text-align:center;">
+              <p style="font-size:13px; color:var(--gray-500);">특징</p>
+              <p style="font-size:16px; font-weight:700; color:var(--dark);">의류 판매 · 발매 웨이팅</p>
+            </div>
+            <div style="flex:1; background:var(--gray-100); border-radius:8px; padding:12px 16px; text-align:center;">
+              <p style="font-size:13px; color:var(--gray-500);">컨셉</p>
+              <p style="font-size:16px; font-weight:700; color:var(--dark);">스케이트 · 피자 · 복합문화</p>
+            </div>
+          </div>
+        </div>
+        <!-- Right: GLGK Store -->
+        <div style="display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
+          <div style="background:var(--accent); border-radius:12px; padding:22px 26px; color:var(--white);">
+            <p style="font-size:14px; font-weight:700; opacity:0.7; margin-bottom:4px;">FLAGSHIP STORE</p>
+            <p style="font-size:26px; font-weight:800;">GLGK 성수 매장</p>
+            <p style="font-size:16px; opacity:0.85; margin-top:6px; line-height:1.5;">서울 성동구 성수동<br>GLGK + SANN 동시 전개 · 키즈 스트릿 편집 공간</p>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; flex:1; min-height:0; overflow:hidden;">
+            <img src="../../images/260525_매장 어카운트제안_아디다스/GLGK 성수점.png" alt="GLGK 성수점" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+            <img src="../../images/260525_매장 어카운트제안_아디다스/GLGK 성수점2.png" alt="GLGK 성수점2" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+            <img src="../../images/260525_매장 어카운트제안_아디다스/히로 성수점5.png" alt="히로 성수점5" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:10px;">
+          </div>
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1; background:var(--gray-100); border-radius:8px; padding:12px 16px; text-align:center;">
+              <p style="font-size:13px; color:var(--gray-500);">운영</p>
+              <p style="font-size:16px; font-weight:700; color:var(--dark);">GLGK + SANN</p>
+            </div>
+            <div style="flex:1; background:var(--gray-100); border-radius:8px; padding:12px 16px; text-align:center;">
+              <p style="font-size:13px; color:var(--gray-500);">컨셉</p>
+              <p style="font-size:16px; font-weight:700; color:var(--dark);">패밀리 라이프스타일</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SLIDE 5: 2026 매출 전망 -->
+    <div class="slide" data-slide="5">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">04</span><span class="sh-title">2026 매출 전망 — 브랜드별 성장</span></div>
+        <span class="sh-page">05 / 06</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:28px; min-height:0; overflow:hidden;">
+        <!-- Left: Group Revenue Chart -->
+        <div style="display:flex; flex-direction:column; min-height:0;">
+          <div style="margin-bottom:14px;">
+            <p style="font-size:32px; font-weight:800; color:var(--dark); line-height:1.3;">데이터로 증명된 폭발적 성장</p>
+            <p style="font-size:18px; color:var(--gray-600); margin-top:6px;">(주)차일디 그룹 매출 · Pre IPO 단계 · 520억 목표</p>
+          </div>
+          <!-- Bar Chart -->
+          <div style="flex:1; background:var(--gray-100); border-radius:12px; padding:20px 24px; display:flex; align-items:flex-end; gap:12px; min-height:0;">
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:14px; font-weight:700; color:var(--gray-600); margin-bottom:6px;">80억</p>
+              <div style="width:100%; flex:0 0 15%; background:var(--gray-200); border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:13px; color:var(--gray-500); margin-top:6px;">2022</p>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:14px; font-weight:700; color:var(--gray-600); margin-bottom:6px;">120억</p>
+              <div style="width:100%; flex:0 0 23%; background:var(--gray-300); border-radius:6px 6px 0 0; background:#ccc;"></div>
+              <p style="font-size:13px; color:var(--gray-500); margin-top:6px;">2023</p>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:14px; font-weight:700; color:var(--gray-600); margin-bottom:6px;">316억</p>
+              <div style="width:100%; flex:0 0 61%; background:var(--accent); opacity:0.4; border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:13px; color:var(--gray-500); margin-top:6px;">2024</p>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:14px; font-weight:700; color:var(--gray-600); margin-bottom:6px;">437억</p>
+              <div style="width:100%; flex:0 0 84%; background:var(--accent); opacity:0.65; border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:13px; color:var(--gray-500); margin-top:6px;">2025</p>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:16px; font-weight:800; color:var(--accent); margin-bottom:6px;">520억</p>
+              <div style="width:100%; flex:0 0 100%; background:var(--accent); border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:13px; font-weight:700; color:var(--accent); margin-top:6px;">2026(목표)</p>
+            </div>
+          </div>
+          <!-- Growth rates -->
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:12px;">
+            <div style="background:var(--accent); border-radius:10px; padding:14px; text-align:center;">
+              <p style="font-size:24px; font-weight:800; color:var(--white);">+165%</p>
+              <p style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:3px;">2024 성장률</p>
+            </div>
+            <div style="background:var(--accent); border-radius:10px; padding:14px; text-align:center;">
+              <p style="font-size:24px; font-weight:800; color:var(--white);">+33%</p>
+              <p style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:3px;">2025 성장률</p>
+            </div>
+            <div style="background:var(--accent); border-radius:10px; padding:14px; text-align:center;">
+              <p style="font-size:24px; font-weight:800; color:var(--white);">520억</p>
+              <p style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:3px;">2026 목표</p>
+            </div>
+          </div>
+        </div>
+        <!-- Right: Brand Revenue -->
+        <div style="display:flex; flex-direction:column; gap:14px; min-height:0; overflow:hidden;">
+          <div style="background:var(--gray-100); border-radius:12px; padding:24px 28px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">HIRO 매출 추이</p>
+            <p style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:14px;">2026년 목표 250억</p>
+            <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;">
+              <div style="text-align:center; background:var(--white); border-radius:8px; padding:12px 8px;">
+                <p style="font-size:22px; font-weight:800; color:var(--dark);">80억</p>
+                <p style="font-size:12px; color:var(--gray-500); margin-top:4px;">2023</p>
+              </div>
+              <div style="text-align:center; background:var(--white); border-radius:8px; padding:12px 8px;">
+                <p style="font-size:22px; font-weight:800; color:var(--dark);">140억</p>
+                <p style="font-size:12px; color:var(--gray-500); margin-top:4px;">2024</p>
+              </div>
+              <div style="text-align:center; background:var(--white); border-radius:8px; padding:12px 8px;">
+                <p style="font-size:22px; font-weight:800; color:var(--dark);">190억</p>
+                <p style="font-size:12px; color:var(--gray-500); margin-top:4px;">2025</p>
+              </div>
+              <div style="text-align:center; background:var(--accent); border-radius:8px; padding:12px 8px;">
+                <p style="font-size:22px; font-weight:800; color:var(--white);">250억</p>
+                <p style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:4px;">2026</p>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--gray-100); border-radius:12px; padding:24px 28px; flex:0.6; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">HIRO 회원 성장</p>
+            <p style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:8px;">자사몰 누적 가입자 17만 목표</p>
+            <p style="font-size:17px; color:var(--gray-600); line-height:1.5;">2022: 2만 → 2023: 4만 → 2024: 9만 → 2025: 14만 → <strong>2026: 17만</strong></p>
+          </div>
+          <div style="background:var(--gray-100); border-radius:12px; padding:24px 28px; flex:0.6; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">GLGK + SANN</p>
+            <p style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:8px;">성수 매장 기반 오프라인 확대</p>
+            <p style="font-size:17px; color:var(--gray-600); line-height:1.5;">매월 한정 먼슬리 드롭 · 컬렉팅 문화 형성<br>패밀리 라이프스타일 고객층 확보 중</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SLIDE 6: 제안 요약 & 기대 효과 -->
+    <div class="slide" data-slide="6">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">05</span><span class="sh-title">어카운트 승인 요청 — 기대 효과</span></div>
+        <span class="sh-page">06 / 06</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; min-height:0;">
+        <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:18px; min-height:0;">
+          <div class="prop-card">
+            <span class="prop-card__tag">REQUEST</span>
+            <span class="prop-card__title">어카운트 승인 요청</span>
+            <span class="prop-card__desc">히로 성수 플래그십 + GLGK 성수 매장에<br>아디다스 키즈 상품 바잉 어카운트 승인 요청<br>오프라인 매장 내 아디다스 키즈 코너 운영</span>
+          </div>
+          <div class="prop-card">
+            <span class="prop-card__tag">adidas GETS</span>
+            <span class="prop-card__title">키즈 스트릿 시장 채널 확보</span>
+            <span class="prop-card__desc">17만 충성 고객 즉시 접근<br>성수 핫플레이스 오프라인 노출<br>팝업·라이브 등 마케팅 시너지</span>
+          </div>
+          <div class="prop-card">
+            <span class="prop-card__tag">CHILDY PROVIDES</span>
+            <span class="prop-card__title">검증된 운영 역량</span>
+            <span class="prop-card__desc">백화점 7개점 + 성수 직영 2개점 운영<br>강력한 D2C 팬덤 기반 판매력<br>Pre IPO 안정적 재무 (530억 밸류)</span>
+          </div>
+          <div class="prop-card">
+            <span class="prop-card__tag">SYNERGY</span>
+            <span class="prop-card__title">타겟 고객 완벽 일치</span>
+            <span class="prop-card__desc">고감도 밀레니얼 맘 · 활동적인 키즈<br>스트릿 × 스포츠 크로스오버 수요<br>아디다스 키즈 자연스러운 매장 내 노출</span>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:18px; padding-top:14px; border-top:1px solid var(--gray-200);">
+          <div style="display:flex; gap:40px;">
+            <dl><dt style="font-size:14px; color:var(--gray-500);">COMPANY</dt><dd style="font-size:18px; font-weight:500; color:var(--dark);">(주)차일디</dd></dl>
+            <dl><dt style="font-size:14px; color:var(--gray-500);">EMAIL</dt><dd style="font-size:18px; font-weight:500; color:var(--dark);">official@childy.co.kr</dd></dl>
+            <dl><dt style="font-size:14px; color:var(--gray-500);">TEL</dt><dd style="font-size:18px; font-weight:500; color:var(--dark);">070-4226-3440</dd></dl>
+            <dl><dt style="font-size:14px; color:var(--gray-500);">WEB</dt><dd style="font-size:18px; font-weight:500; color:var(--dark);">childy.net</dd></dl>
+          </div>
+          <p style="font-size:28px; font-weight:800; color:var(--accent);">CHILDY × adidas Kids</p>
+        </div>
+      </div>
+    </div>
+  </div><!-- end slides-wrapper -->
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const progress = document.getElementById('progress');
+    let current = 0;
+    const total = slides.length;
+
+    function go(idx) {
+      if (idx < 0 || idx >= total) return;
+      slides[current].classList.remove('active');
+      current = idx;
+      slides[current].classList.add('active');
+      progress.style.width = ((current + 1) / total * 100) + '%';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(current - 1); }
+    });
+
+    document.addEventListener('click', e => {
+      const x = e.clientX / window.innerWidth;
+      x > 0.5 ? go(current + 1) : go(current - 1);
+    });
+
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) diff > 0 ? go(current + 1) : go(current - 1);
+    });
+  </script>
+</body>
+</html>

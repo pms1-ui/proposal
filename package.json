@@ -1,0 +1,13 @@
+{
+  "name": "hiro-puma-proposal",
+  "version": "1.0.0",
+  "description": "HIRO x PUMA KIDS Collaboration Proposal",
+  "type": "commonjs",
+  "scripts": {
+    "html2pptx": "node scripts/html2pptx.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0",
+    "playwright": "^1.40.0"
+  }
+}

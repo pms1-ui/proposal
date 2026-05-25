@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIRO × PUMA KIDS — Collaboration Proposal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --accent: #EF383A;
+      --dark: #1a1a1a;
+      --gray-700: #3d3d3d;
+      --gray-600: #555;
+      --gray-500: #888;
+      --gray-400: #aaa;
+      --gray-200: #e2e2e2;
+      --gray-100: #f5f5f3;
+      --white: #ffffff;
+    }
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #eee;
+    }
+    .slide {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease;
+      display: flex; flex-direction: column;
+      background: var(--white);
+      padding: 90px;
+    }
+    .slide.active { opacity: 1; visibility: visible; }
+    .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; z-index: 100; }
+    .nav-hint { position: fixed; bottom: 10px; right: 16px; font-size: 10px; color: #bbb; z-index: 100; pointer-events: none; }
+    /* SLIDE 1 */
+    .s1-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .s1-logo { height: 60px; border-radius: 6px; }
+    .s1-badge { font-size: 18px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.03em; padding: 10px 24px; border: 1px solid var(--gray-200); border-radius: 28px; }
+    .s1-body { flex: 1; display: flex; align-items: center; justify-content: center; gap: 180px; }
+    .s1-left { flex: 0 1 auto; }
+    .s1-title { font-size: 72px; font-weight: 900; color: var(--dark); letter-spacing: -0.03em; line-height: 1.12; }
+    .s1-title em { font-style: normal; color: var(--accent); }
+    .s1-sub { font-size: 26px; color: var(--gray-600); margin-top: 20px; line-height: 1.6; }
+    .s1-points { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .s1-points li { list-style: none; font-size: 24px; color: var(--gray-700); padding-left: 22px; position: relative; line-height: 1.4; }
+    .s1-points li::before { content: ''; position: absolute; left: 0; top: 12px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .s1-img { width: 580px; height: 580px; border-radius: 20px; object-fit: cover; flex-shrink: 0; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .s1-foot { display: flex; gap: 48px; margin-top: 12px; }
+    .s1-foot dt { font-size: 14px; color: var(--gray-500); letter-spacing: 0.04em; }
+    .s1-foot dd { font-size: 20px; font-weight: 500; color: var(--gray-700); }
+    /* SLIDE 2 */
+    .s2-body { flex: 1; display: flex; flex-direction: column; }
+    .s2-headline { font-size: 32px; font-weight: 800; color: var(--dark); line-height: 1.3; margin-bottom: 6px; }
+    .s2-sub { font-size: 18px; color: var(--gray-600); margin-bottom: 20px; }
+    .s2-grid { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; }
+    .s2-card { background: var(--gray-100); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .s2-card__num { font-size: 64px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; }
+    .s2-card__num--accent { color: var(--accent); }
+    .s2-card__label { font-size: 18px; color: var(--gray-500); margin-top: 8px; }
+    .s2-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .s2-popup { background: var(--accent); border-radius: 14px; padding: 24px 28px; color: var(--white); }
+    .s2-popup__tag { font-size: 14px; font-weight: 700; opacity: 0.7; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .s2-popup__title { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+    .s2-popup__desc { font-size: 20px; opacity: 0.85; line-height: 1.5; }
+    /* SLIDE 3 */
+    .s3-body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; min-height: 0; overflow: hidden; }
+    .s3-left { display: flex; flex-direction: column; }
+    .s3-hero { background: var(--accent); border-radius: 16px; padding: 36px 40px; margin-bottom: 18px; }
+    .s3-hero__sub { font-size: 20px; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
+    .s3-hero__big { font-size: 52px; font-weight: 800; color: var(--white); }
+    .s3-list { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .s3-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--gray-100); border-radius: 10px; }
+    .s3-item__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .s3-item__text { font-size: 22px; color: var(--gray-700); line-height: 1.4; }
+    .s3-right { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .s3-img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+    /* SLIDE 4 */
+    .s4-body { flex: 1; display: grid; grid-template-columns: 1fr 1.1fr; gap: 24px; min-height: 0; overflow: hidden; }
+    .s4-left { display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow: hidden; }
+    .s4-headline { font-size: 32px; font-weight: 800; color: var(--dark); line-height: 1.3; margin-bottom: 10px; }
+    .s4-sub { font-size: 18px; color: var(--gray-600); margin-bottom: 16px; }
+    .s4-feat { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: var(--gray-100); border-radius: 10px; }
+    .s4-feat__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+    .s4-feat__text { font-size: 20px; color: var(--gray-700); line-height: 1.4; }
+    .s4-right { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; }
+    .s4-img { flex: 1; width: 100%; min-height: 0; object-fit: cover; border-radius: 16px; }
+    .s4-strip { background: var(--gray-100); border-radius: 12px; padding: 16px 24px; display: flex; justify-content: space-between; flex-shrink: 0; }
+    .s4-strip__item { text-align: center; }
+    .s4-strip__label { font-size: 13px; color: var(--gray-500); margin-bottom: 2px; }
+    .s4-strip__val { font-size: 20px; font-weight: 700; color: var(--dark); }
+    /* SLIDE 5 */
+    .s5-body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .s5-card { background: var(--gray-100); border-radius: 14px; padding: 28px 30px; display: flex; flex-direction: column; justify-content: center; }
+    .s5-card__tag { font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 10px; }
+    .s5-card__title { font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .s5-card__desc { font-size: 22px; color: var(--gray-600); line-height: 1.5; }
+    .s5-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--gray-200); }
+    .s5-contacts { display: flex; gap: 40px; }
+    .s5-contacts dt { font-size: 14px; color: var(--gray-500); letter-spacing: 0.04em; }
+    .s5-contacts dd { font-size: 20px; font-weight: 500; color: var(--dark); }
+    .s5-tagline { font-size: 32px; font-weight: 800; color: var(--accent); }
+
+    /* Shared header */
+    .sh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .sh-left { display: flex; align-items: center; gap: 12px; }
+    .sh-num { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; font-size: 18px; font-weight: 800; background: var(--accent); color: var(--white); }
+    .sh-title { font-size: 30px; font-weight: 700; color: var(--dark); }
+    .sh-page { font-size: 18px; color: var(--gray-400); }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" style="width:14.3%"></div>
+  <div class="nav-hint">← → 방향키</div>
+  <div class="slides-wrapper" style="width:100%;height:100%;position:relative;">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" data-slide="1">
+      <div class="s1-top">
+        <img class="s1-logo" src="../../images/260525_히로푸마키즈/hiro logo.jpg" alt="HIRO">
+        <span class="s1-badge">COLLABORATION PROPOSAL · 2026</span>
+      </div>
+      <div class="s1-body">
+        <div class="s1-left">
+          <h1 class="s1-title"><span style="color:var(--accent);">HIRO</span> × <span style="color:var(--dark);">PUMA KIDS</span></h1>
+          <p class="s1-sub">국내 1위 키즈 스트리트 팬덤과 글로벌 브랜드의 만남<br>푸마 '스피드캣' 기반 키즈 하이브리드 <strong>'샌동화'</strong> 공동 개발 제안</p>
+          <ul class="s1-points">
+            <li>푸마 키즈의 새로운 킬러 아이템 확보 (시장 선점)</li>
+            <li>발매 동시 완판을 기록하는 히로 D2C 팬덤 화력 결합</li>
+          </ul>
+        </div>
+        <img class="s1-img" src="../../images/260525_히로푸마키즈/hiro image1.jpg" alt="HIRO Kids">
+      </div>
+      <div class="s1-foot">
+        <dl><div><dt>DATE</dt><dd>2026. 05</dd></div></dl>
+        <dl><div><dt>WEBSITE</dt><dd>hiro-store.co.kr</dd></div></dl>
+        <dl><div><dt>CONTACT</dt><dd>official@childy.co.kr</dd></div></dl>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" data-slide="2">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">01</span><span class="sh-title">HIRO 마켓 파워</span></div>
+        <span class="sh-page">02 / 07</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1.2fr 0.8fr; gap:24px; min-height:0;">
+        <div style="display:flex; flex-direction:column; min-height:0;">
+          <div>
+            <p class="s2-headline">아동복 시장의 '독보적 대안'</p>
+            <p class="s2-sub">남아 중심 유니섹스 스트리트 (2018 론칭) · 자사몰 D2C · 오프라인 오픈런</p>
+          </div>
+          <div class="s2-grid" style="grid-template-columns:repeat(2,1fr); margin-bottom:14px;">
+            <div class="s2-card">
+              <span class="s2-card__num">90%</span>
+              <span class="s2-card__label">자사몰 매출 비중</span>
+            </div>
+            <div class="s2-card">
+              <span class="s2-card__num s2-card__num--accent">250억</span>
+              <span class="s2-card__label">2026 매출 목표</span>
+            </div>
+            <div class="s2-card">
+              <span class="s2-card__num">17만</span>
+              <span class="s2-card__label">회원 수 목표</span>
+            </div>
+            <div class="s2-card">
+              <span class="s2-card__num s2-card__num--accent">75%</span>
+              <span class="s2-card__label">최대 매출 성장률</span>
+            </div>
+          </div>
+          <div class="s2-bottom" style="grid-template-columns:1fr;">
+            <div class="s2-popup">
+              <p class="s2-popup__tag">POPUP RECORD</p>
+              <p class="s2-popup__title">부산 신세계 2만명 · 5.2억 / 더현대 대구 3.8억</p>
+              <p class="s2-popup__desc">개최 지역 불문 오픈런 · 업계 역대 최고 실적</p>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; min-height:0; overflow:hidden;">
+          <img src="../../images/260525_히로푸마키즈/hiro image-2.jpg" alt="HIRO" style="flex:1; width:100%; min-height:0; object-fit:cover; object-position:center top; border-radius:12px;">
+          <img src="../../images/260525_히로푸마키즈/hiro image-3.jpg" alt="HIRO" style="flex:1; width:100%; min-height:0; object-fit:cover; border-radius:12px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: SCALE UP (swapped from 4) -->
+    <div class="slide" data-slide="3">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">02</span><span class="sh-title">SCALE UP — 폭발적 성장 로드맵</span></div>
+        <span class="sh-page">03 / 07</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:28px; min-height:0; overflow:hidden;">
+        <!-- Left: Bar Chart + Growth Rate -->
+        <div style="display:flex; flex-direction:column; min-height:0;">
+          <div style="margin-bottom:14px;">
+            <p style="font-size:32px; font-weight:800; color:var(--dark); line-height:1.3;">데이터로 증명된 폭발적 성장</p>
+            <p style="font-size:18px; color:var(--gray-600); margin-top:6px;">온라인 성공 기반 매년 고속 성장 · 250억 메가 브랜드 도약</p>
+          </div>
+          <!-- Bar Chart -->
+          <div style="flex:1; background:var(--gray-100); border-radius:12px; padding:20px 24px; display:flex; align-items:flex-end; gap:12px; min-height:0;">
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:15px; font-weight:700; color:var(--gray-600); margin-bottom:6px;">80억</p>
+              <div style="width:100%; flex:0 0 32%; background:var(--gray-200); border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:14px; color:var(--gray-500); margin-top:6px;">2023</p>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:15px; font-weight:700; color:var(--gray-600); margin-bottom:6px;">140억</p>
+              <div style="width:100%; flex:0 0 56%; background:var(--accent); opacity:0.5; border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:14px; color:var(--gray-500); margin-top:6px;">2024</p>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:15px; font-weight:700; color:var(--gray-600); margin-bottom:6px;">190억</p>
+              <div style="width:100%; flex:0 0 76%; background:var(--accent); opacity:0.75; border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:14px; color:var(--gray-500); margin-top:6px;">2025</p>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">
+              <p style="font-size:17px; font-weight:800; color:var(--accent); margin-bottom:6px;">250억</p>
+              <div style="width:100%; flex:0 0 100%; background:var(--accent); border-radius:6px 6px 0 0;"></div>
+              <p style="font-size:14px; font-weight:700; color:var(--accent); margin-top:6px;">2026(목표)</p>
+            </div>
+          </div>
+          <!-- Growth rates at bottom left -->
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:12px;">
+            <div style="background:var(--accent); border-radius:10px; padding:14px; text-align:center;">
+              <p style="font-size:26px; font-weight:800; color:var(--white);">+75%</p>
+              <p style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:3px;">2024 성장률</p>
+            </div>
+            <div style="background:var(--accent); border-radius:10px; padding:14px; text-align:center;">
+              <p style="font-size:26px; font-weight:800; color:var(--white);">+36%</p>
+              <p style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:3px;">2025 성장률</p>
+            </div>
+            <div style="background:var(--accent); border-radius:10px; padding:14px; text-align:center;">
+              <p style="font-size:26px; font-weight:800; color:var(--white);">+32%</p>
+              <p style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:3px;">2026 목표</p>
+            </div>
+          </div>
+        </div>
+        <!-- Right: Membership line chart only -->
+        <div style="display:flex; flex-direction:column; min-height:0; overflow:hidden;">
+          <div style="background:var(--gray-100); border-radius:12px; padding:28px 30px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:14px; font-weight:700; color:var(--accent); margin-bottom:6px;">MEMBERSHIP GROWTH</p>
+            <p style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:16px;">자사몰 누적 가입자 현황</p>
+            <svg viewBox="0 0 440 220" style="width:100%; flex:1; min-height:0;" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid lines -->
+              <line x1="40" y1="180" x2="420" y2="180" stroke="#ddd" stroke-width="1"/>
+              <line x1="40" y1="135" x2="420" y2="135" stroke="#eee" stroke-width="1"/>
+              <line x1="40" y1="90" x2="420" y2="90" stroke="#eee" stroke-width="1"/>
+              <line x1="40" y1="45" x2="420" y2="45" stroke="#eee" stroke-width="1"/>
+              <!-- Area fill -->
+              <polygon points="60,168 155,152 250,108 345,72 420,40 420,180 60,180" fill="#EF383A" opacity="0.08"/>
+              <!-- Line -->
+              <polyline points="60,168 155,152 250,108 345,72 420,40" fill="none" stroke="#EF383A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Dots -->
+              <circle cx="60" cy="168" r="7" fill="#EF383A"/>
+              <circle cx="155" cy="152" r="7" fill="#EF383A"/>
+              <circle cx="250" cy="108" r="7" fill="#EF383A"/>
+              <circle cx="345" cy="72" r="7" fill="#EF383A"/>
+              <circle cx="420" cy="40" r="9" fill="#EF383A"/>
+              <!-- Values -->
+              <text x="60" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#333">2만</text>
+              <text x="155" y="142" text-anchor="middle" font-size="16" font-weight="700" fill="#333">4만</text>
+              <text x="250" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#333">9만</text>
+              <text x="345" y="62" text-anchor="middle" font-size="16" font-weight="700" fill="#333">14만</text>
+              <text x="420" y="28" text-anchor="middle" font-size="18" font-weight="800" fill="#EF383A">17만</text>
+              <!-- Year labels -->
+              <text x="60" y="200" text-anchor="middle" font-size="14" fill="#888">2022</text>
+              <text x="155" y="200" text-anchor="middle" font-size="14" fill="#888">2023</text>
+              <text x="250" y="200" text-anchor="middle" font-size="14" fill="#888">2024</text>
+              <text x="345" y="200" text-anchor="middle" font-size="14" fill="#888">2025</text>
+              <text x="420" y="196" text-anchor="middle" font-size="14" font-weight="700" fill="#EF383A">2026</text>
+              <text x="420" y="212" text-anchor="middle" font-size="12" font-weight="600" fill="#EF383A">(목표)</text>
+              <!-- YoY change - positioned above the line -->
+              <text x="108" y="148" text-anchor="middle" font-size="13" font-weight="600" fill="#EF383A">+100%</text>
+              <text x="203" y="118" text-anchor="middle" font-size="13" font-weight="600" fill="#EF383A">+125%</text>
+              <text x="298" y="78" text-anchor="middle" font-size="13" font-weight="600" fill="#EF383A">+56%</text>
+              <text x="383" y="44" text-anchor="middle" font-size="13" font-weight="600" fill="#EF383A">+21%</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: FANDOM ENGINE (swapped from 3) -->
+    <div class="slide" data-slide="4">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">03</span><span class="sh-title">팬덤 엔진 : 히로매니아</span></div>
+        <span class="sh-page">04 / 07</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:24px; min-height:0;">
+        <div style="display:flex; flex-direction:column; gap:14px; min-height:0;">
+          <div>
+            <p style="font-size:32px; font-weight:800; color:var(--dark); line-height:1.3;">팬덤을 열광시키는 엔진,<br>매주 수요일 신규 컬렉션 드롭</p>
+            <p style="font-size:18px; color:var(--gray-600); margin-top:10px; line-height:1.5;">인기 가수 콘서트 티켓팅과 같은 발매 현상.<br>3분이라는 짧은 찰나에 제품을 쟁취하는 문화적 이벤트.</p>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; flex:1; min-height:0;">
+            <div style="background:var(--accent); border-radius:12px; padding:22px; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+              <span style="font-size:42px; font-weight:800; color:var(--white);">153만</span>
+              <span style="font-size:16px; color:rgba(255,255,255,0.7); margin-top:6px;">최고 페이지뷰(PV)</span>
+            </div>
+            <div style="background:var(--accent); border-radius:12px; padding:22px; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+              <span style="font-size:42px; font-weight:800; color:var(--white);">21,565</span>
+              <span style="font-size:16px; color:rgba(255,255,255,0.7); margin-top:6px;">히로매니아 커뮤니티</span>
+            </div>
+            <div style="background:var(--gray-100); border-radius:12px; padding:22px; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+              <span style="font-size:42px; font-weight:800; color:var(--dark);">90%</span>
+              <span style="font-size:16px; color:var(--gray-500); margin-top:6px;">자사몰 매출 비중</span>
+            </div>
+            <div style="background:var(--gray-100); border-radius:12px; padding:22px; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+              <span style="font-size:42px; font-weight:800; color:var(--dark);">1분 30초</span>
+              <span style="font-size:16px; color:var(--gray-500); margin-top:6px;">인기 제품 완판 시간</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
+          <div style="background:var(--gray-100); border-radius:12px; padding:22px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">FANDOM CULTURE</p>
+            <p style="font-size:22px; font-weight:700; color:var(--dark); margin-bottom:6px;">자발적 팬 커뮤니티 '히로매니아'</p>
+            <p style="font-size:18px; color:var(--gray-600); line-height:1.6;">SNS를 통한 자발적 콘텐츠 생성<br>정보 공유와 팬 활동으로 브랜드 경험 확장</p>
+          </div>
+          <div style="background:var(--gray-100); border-radius:12px; padding:22px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">RESALE VALUE</p>
+            <p style="font-size:22px; font-weight:700; color:var(--dark); margin-bottom:6px;">리뷰로 증명된 열기, 리셀로 확인된 가치</p>
+            <p style="font-size:18px; color:var(--gray-600); line-height:1.6;">실구매 리뷰와 2차 리셀 거래 활성화<br>제품의 희소성과 선호도가 시장에서 유지</p>
+          </div>
+          <div style="background:var(--gray-100); border-radius:12px; padding:22px; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:8px;">WEEKLY DROP</p>
+            <p style="font-size:22px; font-weight:700; color:var(--dark); margin-bottom:6px;">매주 수요일 발매 = 문화적 이벤트</p>
+            <p style="font-size:18px; color:var(--gray-600); line-height:1.6;">팬들이 알람을 맞추고 자사몰로 모여드는<br>강력한 브랜드-팬덤 소통 구조</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: COLLAB SUCCESS -->
+    <div class="slide" data-slide="5">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">04</span><span class="sh-title">협업 성공 사례 : HIRO × 골스튜디오</span></div>
+        <span class="sh-page">05 / 07</span>
+      </div>
+      <div class="s3-body" style="min-height:0;">
+        <div class="s3-left" style="min-height:0; overflow:hidden;">
+          <div class="s3-hero">
+            <p class="s3-hero__sub">자사몰 단독 · 발매 오픈</p>
+            <p class="s3-hero__big">3분 만에 2,000족 완판!</p>
+          </div>
+          <div class="s3-list" style="overflow:hidden;">
+            <div class="s3-item"><div class="s3-item__dot"></div><span class="s3-item__text">프리미엄 여름 클로그 샌들 [HIRO KAIV] · ₩49,000</span></div>
+            <div class="s3-item"><div class="s3-item__dot"></div><span class="s3-item__text">국내 아동 체형 맞춤 몰드~디자인 자체 합작 R&D</span></div>
+            <div class="s3-item"><div class="s3-item__dot"></div><span class="s3-item__text">에어홀 공기 순환 · 인체공학적 힐 커브 · 아치 서포트</span></div>
+            <div class="s3-item"><div class="s3-item__dot"></div><span class="s3-item__text">미끄럼 방지 아웃솔 · 커스터마이징 끈 구성</span></div>
+            <div class="s3-item"><div class="s3-item__dot"></div><span class="s3-item__text">발매 직후 커뮤니티 내 2차 리셀로 가치 입증</span></div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; min-height:0; overflow:hidden; align-content:stretch;">
+          <img src="../../images/260525_히로푸마키즈/1.jpg" alt="HIRO" style="width:100%; height:100%; min-height:0; object-fit:cover; object-position:center bottom; border-radius:10px;">
+          <img src="../../images/260525_히로푸마키즈/2.jpg" alt="HIRO" style="width:100%; height:100%; min-height:0; object-fit:cover; object-position:center bottom; border-radius:10px;">
+          <img src="../../images/260525_히로푸마키즈/3.jpg" alt="HIRO" style="width:100%; height:100%; min-height:0; object-fit:cover; object-position:center bottom; border-radius:10px;">
+          <img src="../../images/260525_히로푸마키즈/4.jpg" alt="HIRO" style="width:100%; height:100%; min-height:0; object-fit:cover; object-position:center bottom; border-radius:10px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" data-slide="6">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">05</span><span class="sh-title">핵심 제안 : 푸마 스피드캣 '샌동화'</span></div>
+        <span class="sh-page">06 / 07</span>
+      </div>
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1.2fr; gap:24px; min-height:0; overflow:hidden;">
+        <div class="s4-left" style="flex:1;">
+          <div>
+            <p class="s4-headline">2026 메가 트렌드<br>스니커즈의 '키즈 확장'</p>
+            <p class="s4-sub">운동화의 착화감 + 샌들의 개방감 = 하이브리드 여름 슈즈</p>
+          </div>
+          <div class="s4-feat"><div class="s4-feat__dot"></div><span class="s4-feat__text">스피드캣 특유의 앞코 실루엣 및 로고 유산 유지</span></div>
+          <div class="s4-feat"><div class="s4-feat__dot"></div><span class="s4-feat__text">히로 시그니처 체커보드 패턴 · 그래픽 끈 적용</span></div>
+          <div class="s4-feat"><div class="s4-feat__dot"></div><span class="s4-feat__text">고밀도 흡습속건 소재 — 야외 활동 및 물놀이 적합</span></div>
+          <div class="s4-feat"><div class="s4-feat__dot"></div><span class="s4-feat__text">아이가 스스로 조절 가능한 스트랩/끈 구조 + 아치 서포트</span></div>
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:20px; background:var(--accent); border-radius:12px; padding:18px 20px;">
+            <div style="text-align:center;"><p style="font-size:14px; color:rgba(255,255,255,0.85); margin-bottom:6px;">타겟</p><p style="font-size:20px; font-weight:700; color:var(--white);">Kids 190~230</p></div>
+            <div style="text-align:center;"><p style="font-size:14px; color:rgba(255,255,255,0.85); margin-bottom:6px;">시즌</p><p style="font-size:20px; font-weight:700; color:var(--white);">2026 S/S</p></div>
+            <div style="text-align:center;"><p style="font-size:14px; color:rgba(255,255,255,0.85); margin-bottom:6px;">형태</p><p style="font-size:20px; font-weight:700; color:var(--white);">샌동화</p></div>
+            <div style="text-align:center;"><p style="font-size:14px; color:rgba(255,255,255,0.85); margin-bottom:6px;">개발</p><p style="font-size:20px; font-weight:700; color:var(--white);">공동 R&D</p></div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:10px; min-height:0; overflow:hidden;">
+          <img src="../../images/260525_히로푸마키즈/puma-sandong1.jpg" alt="샌동화" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:12px; border:1px solid var(--gray-200);">
+          <img src="../../images/260525_히로푸마키즈/sandong2.webp" alt="샌동화" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:12px; border:1px solid var(--gray-200);">
+          <img src="../../images/260525_히로푸마키즈/sandong3.jpg" alt="샌동화" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:12px; border:1px solid var(--gray-200);">
+          <img src="../../images/260525_히로푸마키즈/sandong3.webp" alt="샌동화" style="width:100%; height:100%; min-height:0; object-fit:cover; border-radius:12px; border:1px solid var(--gray-200);">
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" data-slide="7">
+      <div class="sh">
+        <div class="sh-left"><span class="sh-num">06</span><span class="sh-title">유통 및 마케팅 전략</span></div>
+        <span class="sh-page">07 / 07</span>
+      </div>
+      <div class="s5-body">
+        <div class="s5-card">
+          <span class="s5-card__tag">PUMA GETS</span>
+          <span class="s5-card__title">신규 시장과 고객 확보</span>
+          <span class="s5-card__desc">키즈 스트릿 시장 즉시 선점<br>히로 팬덤 17만 고객 즉시 접근<br>완판 보장 화제성 + 팝업 모객력</span>
+        </div>
+        <div class="s5-card">
+          <span class="s5-card__tag">D2C 단독 출시</span>
+          <span class="s5-card__title">히로 자사몰 단독 드롭</span>
+          <span class="s5-card__desc">팬덤 관여도가 가장 높은 채널에서<br>완판 흥행 공식 그대로 대입</span>
+        </div>
+        <div class="s5-card">
+          <span class="s5-card__tag">출시 마케팅</span>
+          <span class="s5-card__title">매주 수요일 드롭 연계</span>
+          <span class="s5-card__desc">11만 팔로워 인스타 라이브 사전 티징<br>2.2만 '히로매니아' 커뮤니티 바이럴</span>
+        </div>
+        <div class="s5-card">
+          <span class="s5-card__tag">EXPECTED RESULT</span>
+          <span class="s5-card__title">HIRO KAIV 실적 기반 완판 확신</span>
+          <span class="s5-card__desc">동일 조건(자사몰 단독, 수요일 드롭) 재현<br>리셀 시장 형성 → 브랜드 가치 상승</span>
+        </div>
+      </div>
+      <div class="s5-foot">
+        <dl class="s5-contacts">
+          <div><dt>WEBSITE</dt><dd>hiro-store.co.kr</dd></div>
+          <div><dt>INSTAGRAM</dt><dd>@hiro_store</dd></div>
+          <div><dt>E-MAIL</dt><dd>official@childy.co.kr</dd></div>
+        </dl>
+        <span class="s5-tagline">Scale Up with HIRO</span>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    const slides=document.querySelectorAll('.slide'),progress=document.getElementById('progress');let cur=0,total=slides.length;
+    function go(i){if(i<0||i>=total)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');progress.style.width=((cur+1)/total*100)+'%'}
+    document.addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}else if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();go(cur-1)}});
+    document.addEventListener('click',e=>{e.clientX>window.innerWidth/2?go(cur+1):go(cur-1)});
+    let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)d>0?go(cur-1):go(cur+1)});
+  </script>
+</body>
+</html>
