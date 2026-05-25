@@ -25,12 +25,15 @@
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #1a1a1a;
       margin: 0; padding: 0;
+      position: fixed;
+      top: 0; left: 0;
     }
     .slides-wrapper {
       width: 1920px; height: 1080px;
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%) scale(1);
       transform-origin: center center;
+      overflow: hidden;
     }
     .slide {
       position: absolute; top: 0; left: 0;
@@ -434,11 +437,13 @@
     const deck = document.getElementById('deck');
     const SW = 1920, SH = 1080;
     function resize() {
-      const vw = window.innerWidth, vh = window.innerHeight;
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
       const scale = Math.min(vw / SW, vh / SH);
       deck.style.transform = 'translate(-50%,-50%) scale(' + scale + ')';
     }
     window.addEventListener('resize', resize);
+    window.addEventListener('orientationchange', function(){ setTimeout(resize, 200); });
     resize();
 
     // Lock orientation on mobile if supported
