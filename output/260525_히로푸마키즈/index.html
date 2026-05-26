@@ -252,10 +252,20 @@
             <p style="font-size:20px; color:var(--gray-600); margin-top:12px; line-height:1.6;">인기 가수 콘서트 티켓팅과 같은 발매 현상.<br>팬들이 알람을 맞추고 자사몰로 모여드는 문화적 이벤트.</p>
           </div>
           <!-- 핵심 강조 카드 -->
-          <div style="background:var(--accent); border-radius:16px; padding:36px; color:var(--white); text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center;">
-            <p style="font-size:20px; opacity:0.8; margin-bottom:8px;">판매율 90% 도달 평균 소요 시간</p>
-            <p style="font-size:80px; font-weight:900; letter-spacing:-0.03em; line-height:1;">3분</p>
-            <p style="font-size:18px; opacity:0.75; margin-top:10px;">온라인 자사몰 · 매주 수요일 드랍 기준</p>
+          <div style="background:var(--accent); border-radius:16px; padding:36px; color:var(--white); text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden;">
+            <!-- 배경 인포그래픽 원형 -->
+            <div style="position:absolute; top:-30px; right:-30px; width:200px; height:200px; border-radius:50%; border:3px solid rgba(255,255,255,0.15);"></div>
+            <div style="position:absolute; bottom:-40px; left:-40px; width:160px; height:160px; border-radius:50%; border:3px solid rgba(255,255,255,0.1);"></div>
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:320px; height:320px; border-radius:50%; border:2px solid rgba(255,255,255,0.08);"></div>
+            <!-- 콘텐츠 -->
+            <p style="font-size:88px; font-weight:900; letter-spacing:-0.04em; line-height:1; position:relative;">3분</p>
+            <p style="font-size:20px; opacity:0.9; margin-top:14px; position:relative;">판매율 <span style="font-size:32px; font-weight:800;">90%</span> 도달 평균 소요 시간</p>
+            <div style="margin-top:16px; display:flex; justify-content:center; gap:6px; position:relative;">
+              <span style="display:inline-block; width:40px; height:5px; border-radius:3px; background:rgba(255,255,255,0.9);"></span>
+              <span style="display:inline-block; width:40px; height:5px; border-radius:3px; background:rgba(255,255,255,0.5);"></span>
+              <span style="display:inline-block; width:40px; height:5px; border-radius:3px; background:rgba(255,255,255,0.25);"></span>
+            </div>
+            <p style="font-size:16px; opacity:0.7; margin-top:12px; position:relative;">온라인 자사몰 · 매주 수요일 드랍 기준</p>
           </div>
           <!-- 수치 -->
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
