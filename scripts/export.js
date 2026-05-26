@@ -35,6 +35,16 @@ async function exportProposal({ name, html, pptx, pdf }) {
   await page.goto('file://' + htmlPath, { waitUntil: 'networkidle' });
   await page.waitForTimeout(2500);
 
+  // UI 요소 숨기기 (PDF/PPTX에 포함되지 않도록)
+  await page.evaluate(() => {
+    const btns = document.querySelector('.dl-btns');
+    if (btns) btns.style.display = 'none';
+    const hint = document.querySelector('.nav-hint');
+    if (hint) hint.style.display = 'none';
+    const progress = document.querySelector('.progress');
+    if (progress) progress.style.display = 'none';
+  });
+
   const totalSlides = await page.evaluate(() => document.querySelectorAll('.slide').length);
   console.log(`   ${totalSlides} slides`);
 
