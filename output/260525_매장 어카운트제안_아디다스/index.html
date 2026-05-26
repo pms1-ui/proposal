@@ -305,7 +305,11 @@
       const vw = window.innerWidth || document.documentElement.clientWidth;
       const vh = window.innerHeight || document.documentElement.clientHeight;
       const scale = Math.min(vw / SW, vh / SH);
-      deck.style.transform = 'translate(-50%,-50%) scale(' + scale + ')';
+      const tx = Math.round(vw / 2);
+      const ty = Math.round(vh / 2);
+      deck.style.left = tx + 'px';
+      deck.style.top = ty + 'px';
+      deck.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
     }
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', function(){ setTimeout(resize, 200); });
