@@ -4,7 +4,8 @@
   "description": "HIRO x PUMA KIDS Collaboration Proposal",
   "type": "commonjs",
   "scripts": {
-    "html2pptx": "node scripts/html2pptx.js"
+    "html2pptx": "node scripts/html2pptx.js",
+    "export": "node scripts/export.js"
   },
   "dependencies": {
     "pptxgenjs": "^3.12.0",
