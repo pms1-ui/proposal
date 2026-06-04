@@ -416,21 +416,81 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    async function captureAllSlides() {
+        async function captureAllSlides() {
       const allSlides = document.querySelectorAll('.slide');
-      const total = allSlides.length;
-      const cur = window._currentSlide || 0;
+      const savedCur = (typeof current !== "undefined" ? current : (typeof cur !== "undefined" ? cur : 0));
       const images = [];
-      for (let i = 0; i < total; i++) {
-        allSlides.forEach((s, j) => s.classList.toggle('active', j === i));
-        await new Promise(r => setTimeout(r, 300));
-        const canvas = await html2canvas(allSlides[i], { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#fff', width: 1920, height: 1080 });
-        images.push(canvas.toDataURL('image/jpeg', 0.95));
+
+      // 캡처 전 UI 숨김
+      document.querySelector('.dl-btns').style.opacity = '0';
+      document.querySelector('.progress').style.display = 'none';
+
+      // object-fit:cover 이미지를 배경 이미지로 변환 (html2canvas 호환성)
+      function fixObjectFitImages(slide) {
+        const imgs = slide.querySelectorAll('img[style*="object-fit:cover"]');
+        const originals = [];
+        imgs.forEach(img => {
+          const rect = img.getBoundingClientRect();
+          const canvas = document.createElement('canvas');
+          canvas.width = img.offsetWidth;
+          canvas.height = img.offsetHeight;
+          const ctx = canvas.getContext('2d');
+          const iw = img.naturalWidth, ih = img.naturalHeight;
+          const cw = img.offsetWidth, ch = img.offsetHeight;
+          const scale = Math.max(cw / iw, ch / ih);
+          const sw = iw * scale, sh = ih * scale;
+          const sx = (cw - sw) / 2, sy = (ch - sh) / 2;
+          ctx.drawImage(img, sx, sy, sw, sh);
+          const style = img.getAttribute('style') || '';
+          originals.push({ img, style });
+          img.style.display = 'none';
+          const div = document.createElement('div');
+          div.setAttribute('data-cover-proxy', '1');
+          div.style.cssText = `width:${cw}px;height:${ch}px;flex-shrink:0;background-image:url(${canvas.toDataURL()});background-size:cover;background-position:center;border-radius:${img.style.borderRadius || '12px'};`;
+          img.parentNode.insertBefore(div, img);
+        });
+        return originals;
       }
-      // restore
-      allSlides.forEach((s, j) => s.classList.toggle('active', j === cur));
+
+      function restoreImages(originals) {
+        originals.forEach(({ img, style }) => {
+          img.style.display = '';
+          img.setAttribute('style', style);
+        });
+        document.querySelectorAll('[data-cover-proxy]').forEach(el => el.remove());
+      }
+
+      for (let i = 0; i < allSlides.length; i++) {
+        allSlides.forEach((s, j) => s.classList.toggle('active', j === i));
+        await new Promise(r => setTimeout(r, 400));
+
+        const originals = fixObjectFitImages(allSlides[i]);
+
+        const canvas = await html2canvas(allSlides[i], {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          width: SW,
+          height: SH,
+          windowWidth: SW,
+          windowHeight: SH,
+          scrollX: 0,
+          scrollY: 0,
+          imageTimeout: 0,
+        });
+        images.push(canvas.toDataURL('image/jpeg', 0.97));
+
+        restoreImages(originals);
+      }
+
+      // 복원
+      allSlides.forEach((s, j) => s.classList.toggle('active', j === savedCur));
+      document.querySelector('.dl-btns').style.opacity = '1';
+      document.querySelector('.progress').style.display = '';
       return images;
     }
+
 
     async function downloadPDF() {
       const btn = document.querySelectorAll('.dl-btns button');
