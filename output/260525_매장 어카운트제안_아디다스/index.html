@@ -311,6 +311,86 @@
   </div><!-- end slides-wrapper -->
   </div><!-- end stage -->
 
+
+  <!-- Export scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+  <script>
+    const SW = 1920, SH = 1080;
+
+    async function captureAllSlides() {
+      const allSlides = document.querySelectorAll('.slide');
+      const savedCur = (typeof current !== "undefined" ? current : (typeof cur !== "undefined" ? cur : 0));
+      const images = [];
+
+      // 다운로드 버튼 숨김
+      document.querySelector('.dl-btns').style.opacity = '0';
+      document.querySelector('.progress').style.display = 'none';
+
+      for (let i = 0; i < allSlides.length; i++) {
+        allSlides.forEach((s, j) => s.classList.toggle('active', j === i));
+        await new Promise(r => setTimeout(r, 400));
+        const canvas = await html2canvas(allSlides[i], {
+          scale: 1,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          width: SW,
+          height: SH,
+          windowWidth: SW,
+          windowHeight: SH,
+          scrollX: 0,
+          scrollY: 0,
+        });
+        images.push(canvas.toDataURL('image/jpeg', 0.95));
+      }
+
+      // 원래 슬라이드 복원
+      allSlides.forEach((s, j) => s.classList.toggle('active', j === savedCur));
+      document.querySelector('.dl-btns').style.opacity = '1';
+      document.querySelector('.progress').style.display = '';
+      return images;
+    }
+
+    async function downloadPDF() {
+      const btns = document.querySelectorAll('.dl-btns button');
+      btns.forEach(b => { b.disabled = true; b.textContent = '캡처 중...'; });
+      try {
+        const images = await captureAllSlides();
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [SW, SH], compress: true });
+        images.forEach((img, i) => {
+          if (i > 0) pdf.addPage([SW, SH], 'landscape');
+          pdf.addImage(img, 'JPEG', 0, 0, SW, SH);
+        });
+        pdf.save('제안서.pdf');
+      } catch(e) { alert('PDF 생성 오류: ' + e.message); }
+      finally {
+        btns[0].disabled = false; btns[0].textContent = '⬇ PDF';
+        btns[1].disabled = false; btns[1].textContent = '⬇ PPT';
+      }
+    }
+
+    async function downloadPPT() {
+      const btns = document.querySelectorAll('.dl-btns button');
+      btns.forEach(b => { b.disabled = true; b.textContent = '캡처 중...'; });
+      try {
+        const images = await captureAllSlides();
+        const pres = new PptxGenJS();
+        pres.layout = 'LAYOUT_WIDE';
+        images.forEach(img => {
+          const slide = pres.addSlide();
+          slide.addImage({ data: img, x: 0, y: 0, w: '100%', h: '100%' });
+        });
+        await pres.writeFile({ fileName: '제안서.pptx' });
+      } catch(e) { alert('PPT 생성 오류: ' + e.message); }
+      finally {
+        btns[0].disabled = false; btns[0].textContent = '⬇ PDF';
+        btns[1].disabled = false; btns[1].textContent = '⬇ PPT';
+      }
+    }
+  </script>
   <script>
     const stage = document.querySelector('.stage');
     const deck = document.getElementById('deck');
