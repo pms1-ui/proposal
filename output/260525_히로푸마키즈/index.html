@@ -429,14 +429,17 @@
       function fixObjectFitImages(slide) {
         const imgs = slide.querySelectorAll('img[style*="object-fit:cover"]');
         const originals = [];
+        const dpr = 3; // 고해상도 캔버스
         imgs.forEach(img => {
-          const rect = img.getBoundingClientRect();
-          const canvas = document.createElement('canvas');
-          canvas.width = img.offsetWidth;
-          canvas.height = img.offsetHeight;
-          const ctx = canvas.getContext('2d');
-          const iw = img.naturalWidth, ih = img.naturalHeight;
           const cw = img.offsetWidth, ch = img.offsetHeight;
+          const canvas = document.createElement('canvas');
+          canvas.width = cw * dpr;
+          canvas.height = ch * dpr;
+          const ctx = canvas.getContext('2d');
+          ctx.scale(dpr, dpr);
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          const iw = img.naturalWidth, ih = img.naturalHeight;
           const scale = Math.max(cw / iw, ch / ih);
           const sw = iw * scale, sh = ih * scale;
           const sx = (cw - sw) / 2, sy = (ch - sh) / 2;
@@ -446,7 +449,7 @@
           img.style.display = 'none';
           const div = document.createElement('div');
           div.setAttribute('data-cover-proxy', '1');
-          div.style.cssText = `width:${cw}px;height:${ch}px;flex-shrink:0;background-image:url(${canvas.toDataURL()});background-size:cover;background-position:center;border-radius:${img.style.borderRadius || '12px'};`;
+          div.style.cssText = `width:${cw}px;height:${ch}px;flex-shrink:0;background-image:url(${canvas.toDataURL('image/jpeg', 1.0)});background-size:cover;background-position:center;border-radius:${img.style.borderRadius || '12px'};`;
           img.parentNode.insertBefore(div, img);
         });
         return originals;
@@ -467,7 +470,7 @@
         const originals = fixObjectFitImages(allSlides[i]);
 
         const canvas = await html2canvas(allSlides[i], {
-          scale: 2,
+          scale: 3,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
@@ -479,7 +482,7 @@
           scrollY: 0,
           imageTimeout: 0,
         });
-        images.push(canvas.toDataURL('image/jpeg', 0.97));
+        images.push(canvas.toDataURL('image/jpeg', 1.0));
 
         restoreImages(originals);
       }
