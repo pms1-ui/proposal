@@ -332,7 +332,7 @@
         allSlides.forEach((s, j) => s.classList.toggle('active', j === i));
         await new Promise(r => setTimeout(r, 400));
         const canvas = await html2canvas(allSlides[i], {
-          scale: 1,
+          scale: 2,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
@@ -429,6 +429,7 @@
     });
 
     document.addEventListener('click', e => {
+      if (e.target.closest('.dl-btns')) return;
       const x = e.clientX / window.innerWidth;
       x > 0.5 ? go(current + 1) : go(current - 1);
     });
