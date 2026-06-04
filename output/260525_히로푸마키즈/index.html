@@ -24,15 +24,18 @@
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #1a1a1a;
       margin: 0; padding: 0;
-      position: fixed;
-      top: 0; left: 0;
+    }
+    .stage {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
     }
     .slides-wrapper {
       width: 1920px; height: 1080px;
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      transform-origin: center center;
+      flex-shrink: 0;
       overflow: hidden;
+      position: relative;
     }
     .slide {
       position: absolute; top: 0; left: 0;
@@ -41,7 +44,8 @@
       transition: opacity 0.3s ease;
       display: flex; flex-direction: column;
       background: var(--white);
-      padding: 80px;
+      padding: 72px 80px;
+      overflow: hidden;
     }
     .slide.active { opacity: 1; visibility: visible; }
     .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; z-index: 100; }
@@ -132,6 +136,7 @@
     <a href="HIRO_x_PUMA_KIDS_콜라보_제안서.pdf" download>⬇ PDF</a>
   </div>
   <div class="nav-hint">← → 방향키</div>
+  <div class="stage">
   <div class="slides-wrapper" id="deck">
 
     <!-- SLIDE 1 -->
@@ -205,39 +210,39 @@
       <div style="flex:1; display:flex; flex-direction:column; gap:14px; min-height:0;">
         <!-- 스타필드 하이라이트 -->
         <div style="background:var(--accent); border-radius:10px; padding:14px 24px; color:var(--white); flex-shrink:0; text-align:center;">
-          <p style="font-size:18px; line-height:1.5;">2026년 3월 수원 스타필드 팝업 — 스케이트보드 대회 컬쳐 콘텐츠 연계, 스타필드 내 기록적인 집객과 트래픽을 달성하며 오픈 3일간 4억 2천만원 역대 단기간 최대 매출 기록</p>
+          <p style="font-size:20px; line-height:1.5;">2026년 3월 수원 스타필드 팝업 — 스케이트보드 대회 컬쳐 콘텐츠 연계, 스타필드 내 기록적인 집객과 트래픽을 달성하며 오픈 3일간 4억 2천만원 역대 단기간 최대 매출 기록</p>
         </div>
         <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:20px; min-height:0;">
           <!-- 1. 대구 현대 -->
           <div style="display:flex; flex-direction:column; align-items:center; min-height:0;">
             <img src="../../images/260525_히로푸마키즈/대구현대.png" alt="대구 현대백화점 팝업" style="flex:1; width:90%; min-height:0; object-fit:contain; border-radius:14px;">
             <div style="padding:10px 4px 0; text-align:center;">
-              <p style="font-size:22px; font-weight:700; color:var(--dark);">대구 현대 백화점 팝업</p>
-              <p style="font-size:16px; color:var(--gray-600); margin-top:4px;">2024.03.01 ~ 03.07 (7일간)<br>총 매출 : 3억 7천만원</p>
+              <p style="font-size:24px; font-weight:700; color:var(--dark);">대구 현대 백화점 팝업</p>
+              <p style="font-size:18px; color:var(--gray-600); margin-top:4px;">2024.03.01 ~ 03.07 (7일간)<br>총 매출 : 3억 7천만원</p>
             </div>
           </div>
           <!-- 2. 성수 히로 -->
           <div style="display:flex; flex-direction:column; align-items:center; min-height:0;">
             <img src="../../images/260525_히로푸마키즈/성수히로.png" alt="성수 히로 매장" style="flex:1; width:90%; min-height:0; object-fit:contain; border-radius:14px;">
             <div style="padding:10px 4px 0; text-align:center;">
-              <p style="font-size:22px; font-weight:700; color:var(--dark);">히로 성수 플래그십 1호 오픈</p>
-              <p style="font-size:16px; color:var(--gray-600); margin-top:4px;">2024.09.05 (OPEN)<br>일 평균 매출 : 6백만원</p>
+              <p style="font-size:24px; font-weight:700; color:var(--dark);">히로 성수 플래그십 1호 오픈</p>
+              <p style="font-size:18px; color:var(--gray-600); margin-top:4px;">2024.09.05 (OPEN)<br>일 평균 매출 : 6백만원</p>
             </div>
           </div>
           <!-- 3. 부산 신세계 -->
           <div style="display:flex; flex-direction:column; align-items:center; min-height:0;">
             <img src="../../images/260525_히로푸마키즈/부산신세계센텀.png" alt="부산 신세계 센텀 팝업" style="flex:1; width:90%; min-height:0; object-fit:contain; border-radius:14px;">
             <div style="padding:10px 4px 0; text-align:center;">
-              <p style="font-size:22px; font-weight:700; color:var(--dark);">부산 신세계 센텀 팝업</p>
-              <p style="font-size:16px; color:var(--gray-600); margin-top:4px;">2025.09.19 ~ 09.28 (10일간)<br>총 매출 : 5억 2천만원</p>
+              <p style="font-size:24px; font-weight:700; color:var(--dark);">부산 신세계 센텀 팝업</p>
+              <p style="font-size:18px; color:var(--gray-600); margin-top:4px;">2025.09.19 ~ 09.28 (10일간)<br>총 매출 : 5억 2천만원</p>
             </div>
           </div>
           <!-- 4. 수원 스타필드 -->
           <div style="display:flex; flex-direction:column; align-items:center; min-height:0;">
             <img src="../../images/260525_히로푸마키즈/수원스타필드_리얼.jpg" alt="수원 스타필드 팝업" style="flex:1; width:90%; min-height:0; object-fit:contain; border-radius:14px;">
             <div style="padding:10px 4px 0; text-align:center;">
-              <p style="font-size:22px; font-weight:700; color:var(--dark);">수원 스타필드 팝업</p>
-              <p style="font-size:16px; color:var(--gray-600); margin-top:4px;">2026.03.20 ~ 03.29 (10일간)<br>총 매출 : 5억</p>
+              <p style="font-size:24px; font-weight:700; color:var(--dark);">수원 스타필드 팝업</p>
+              <p style="font-size:18px; color:var(--gray-600); margin-top:4px;">2026.03.20 ~ 03.29 (10일간)<br>총 매출 : 5억</p>
             </div>
           </div>
         </div>
@@ -255,7 +260,7 @@
         <div style="display:flex; flex-direction:column; gap:20px; min-height:0;">
           <div>
             <p style="font-size:36px; font-weight:800; color:var(--dark); line-height:1.3;">매주 수요일 11시,<br>신상 드랍 발매</p>
-            <p style="font-size:20px; color:var(--gray-600); margin-top:12px; line-height:1.6;">인기 가수 콘서트 티켓팅과 같은 발매 현상.<br>팬들이 알람을 맞추고 자사몰로 모여드는 문화적 이벤트.</p>
+            <p style="font-size:22px; color:var(--gray-600); margin-top:12px; line-height:1.6;">인기 가수 콘서트 티켓팅과 같은 발매 현상.<br>팬들이 알람을 맞추고 자사몰로 모여드는 문화적 이벤트.</p>
           </div>
           <!-- 핵심 강조 카드 -->
           <div style="background:var(--accent); border-radius:16px; padding:36px; color:var(--white); text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden;">
@@ -265,43 +270,43 @@
             <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:320px; height:320px; border-radius:50%; border:2px solid rgba(255,255,255,0.08);"></div>
             <!-- 콘텐츠 -->
             <p style="font-size:88px; font-weight:900; letter-spacing:-0.04em; line-height:1; position:relative;">3분</p>
-            <p style="font-size:20px; opacity:0.9; margin-top:14px; position:relative;">판매율 <span style="font-size:32px; font-weight:800;">90%</span> 도달 평균 소요 시간</p>
+            <p style="font-size:22px; opacity:0.9; margin-top:14px; position:relative;">판매율 <span style="font-size:32px; font-weight:800;">90%</span> 도달 평균 소요 시간</p>
             <div style="margin-top:16px; display:flex; justify-content:center; gap:6px; position:relative;">
               <span style="display:inline-block; width:40px; height:5px; border-radius:3px; background:rgba(255,255,255,0.9);"></span>
               <span style="display:inline-block; width:40px; height:5px; border-radius:3px; background:rgba(255,255,255,0.5);"></span>
               <span style="display:inline-block; width:40px; height:5px; border-radius:3px; background:rgba(255,255,255,0.25);"></span>
             </div>
-            <p style="font-size:16px; opacity:0.7; margin-top:12px; position:relative;">온라인 자사몰 · 매주 수요일 드랍 기준</p>
-            <p style="font-size:16px; opacity:0.7; margin-top:6px; position:relative;">성수 플래그십 매장 월 평균 방문자 수 5,000명 이상</p>
+            <p style="font-size:18px; opacity:0.7; margin-top:12px; position:relative;">온라인 자사몰 · 매주 수요일 드랍 기준</p>
+            <p style="font-size:18px; opacity:0.7; margin-top:6px; position:relative;">성수 플래그십 매장 월 평균 방문자 수 5,000명 이상</p>
           </div>
           <!-- 수치 -->
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
             <div style="background:var(--gray-100); border-radius:12px; padding:20px; text-align:center;">
               <span style="font-size:36px; font-weight:800; color:var(--dark);">153만</span>
-              <span style="display:block; font-size:15px; color:var(--gray-500); margin-top:4px;">일 최고 페이지뷰(PV)</span>
+              <span style="display:block; font-size:17px; color:var(--gray-500); margin-top:4px;">일 최고 페이지뷰(PV)</span>
             </div>
             <div style="background:var(--gray-100); border-radius:12px; padding:20px; text-align:center;">
               <span style="font-size:36px; font-weight:800; color:var(--dark);">21,565명</span>
-              <span style="display:block; font-size:15px; color:var(--gray-500); margin-top:4px;">히로매니아 커뮤니티</span>
+              <span style="display:block; font-size:17px; color:var(--gray-500); margin-top:4px;">히로매니아 커뮤니티</span>
             </div>
           </div>
         </div>
         <!-- Right -->
         <div style="display:flex; flex-direction:column; gap:14px; min-height:0;">
           <div style="background:var(--gray-100); border-radius:12px; padding:26px 28px; flex:1; display:flex; flex-direction:column; justify-content:center;">
-            <p style="font-size:15px; font-weight:700; color:var(--accent); margin-bottom:6px;">FANDOM CULTURE</p>
-            <p style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:6px;">자발적 팬 커뮤니티 '히로매니아'</p>
-            <p style="font-size:18px; color:var(--gray-600); line-height:1.6;">SNS를 통한 자발적 콘텐츠 생성<br>정보 공유와 팬 활동으로 브랜드 경험 확장</p>
+            <p style="font-size:17px; font-weight:700; color:var(--accent); margin-bottom:6px;">FANDOM CULTURE</p>
+            <p style="font-size:26px; font-weight:700; color:var(--dark); margin-bottom:6px;">자발적 팬 커뮤니티 '히로매니아'</p>
+            <p style="font-size:20px; color:var(--gray-600); line-height:1.6;">SNS를 통한 자발적 콘텐츠 생성<br>정보 공유와 팬 활동으로 브랜드 경험 확장</p>
           </div>
           <div style="background:var(--gray-100); border-radius:12px; padding:26px 28px; flex:1; display:flex; flex-direction:column; justify-content:center;">
-            <p style="font-size:15px; font-weight:700; color:var(--accent); margin-bottom:6px;">RESALE VALUE</p>
-            <p style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:6px;">리뷰로 증명된 열기, 리셀로 확인된 가치</p>
-            <p style="font-size:18px; color:var(--gray-600); line-height:1.6;">실구매 리뷰와 2차 리셀 거래 활성화<br>제품의 희소성과 선호도가 시장에서 유지</p>
+            <p style="font-size:17px; font-weight:700; color:var(--accent); margin-bottom:6px;">RESALE VALUE</p>
+            <p style="font-size:26px; font-weight:700; color:var(--dark); margin-bottom:6px;">리뷰로 증명된 열기, 리셀로 확인된 가치</p>
+            <p style="font-size:20px; color:var(--gray-600); line-height:1.6;">실구매 리뷰와 2차 리셀 거래 활성화<br>제품의 희소성과 선호도가 시장에서 유지</p>
           </div>
           <div style="background:var(--gray-100); border-radius:12px; padding:26px 28px; flex:1; display:flex; flex-direction:column; justify-content:center;">
-            <p style="font-size:15px; font-weight:700; color:var(--accent); margin-bottom:6px;">WEEKLY DROP</p>
-            <p style="font-size:24px; font-weight:700; color:var(--dark); margin-bottom:6px;">매주 수요일 발매 = 문화적 이벤트</p>
-            <p style="font-size:18px; color:var(--gray-600); line-height:1.6;">팬들이 알람을 맞추고 자사몰로 모여드는<br>강력한 브랜드-팬덤 소통 구조</p>
+            <p style="font-size:17px; font-weight:700; color:var(--accent); margin-bottom:6px;">WEEKLY DROP</p>
+            <p style="font-size:26px; font-weight:700; color:var(--dark); margin-bottom:6px;">매주 수요일 발매 = 문화적 이벤트</p>
+            <p style="font-size:20px; color:var(--gray-600); line-height:1.6;">팬들이 알람을 맞추고 자사몰로 모여드는<br>강력한 브랜드-팬덤 소통 구조</p>
           </div>
         </div>
       </div>
@@ -353,10 +358,10 @@
           <div class="s4-feat"><div class="s4-feat__dot"></div><span class="s4-feat__text">고밀도 흡습속건 소재 — 야외 활동 및 물놀이 적합</span></div>
           <div class="s4-feat"><div class="s4-feat__dot"></div><span class="s4-feat__text">아이가 스스로 조절 가능한 스트랩/끈 구조 + 아치 서포트</span></div>
           <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:20px; background:var(--accent); border-radius:12px; padding:18px 20px;">
-            <div style="text-align:center;"><p style="font-size:18px; color:rgba(255,255,255,0.85); margin-bottom:10px;">예상 타겟</p><p style="font-size:20px; font-weight:700; color:var(--white);">190~250</p></div>
-            <div style="text-align:center;"><p style="font-size:18px; color:rgba(255,255,255,0.85); margin-bottom:10px;">시즌</p><p style="font-size:20px; font-weight:700; color:var(--white);">2027 S/S</p></div>
-            <div style="text-align:center;"><p style="font-size:18px; color:rgba(255,255,255,0.85); margin-bottom:10px;">형태</p><p style="font-size:20px; font-weight:700; color:var(--white);">샌동화</p></div>
-            <div style="text-align:center;"><p style="font-size:18px; color:rgba(255,255,255,0.85); margin-bottom:10px;">개발</p><p style="font-size:20px; font-weight:700; color:var(--white);">공동 R&D</p></div>
+            <div style="text-align:center;"><p style="font-size:20px; color:rgba(255,255,255,0.85); margin-bottom:10px;">예상 타겟</p><p style="font-size:22px; font-weight:700; color:var(--white);">190~250</p></div>
+            <div style="text-align:center;"><p style="font-size:20px; color:rgba(255,255,255,0.85); margin-bottom:10px;">시즌</p><p style="font-size:22px; font-weight:700; color:var(--white);">2027 S/S</p></div>
+            <div style="text-align:center;"><p style="font-size:20px; color:rgba(255,255,255,0.85); margin-bottom:10px;">형태</p><p style="font-size:22px; font-weight:700; color:var(--white);">샌동화</p></div>
+            <div style="text-align:center;"><p style="font-size:20px; color:rgba(255,255,255,0.85); margin-bottom:10px;">개발</p><p style="font-size:22px; font-weight:700; color:var(--white);">공동 R&D</p></div>
           </div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:10px; min-height:0; overflow:hidden;">
@@ -406,16 +411,19 @@
       </div>
     </div>
 
-  </div>
+  </div><!-- end slides-wrapper -->
+  </div><!-- end stage -->
+
   <script>
-    // Scale deck to fit viewport (landscape-first)
+    // Scale deck to fit viewport - flexbox centering + transform scale
     const deck = document.getElementById('deck');
     const SW = 1920, SH = 1080;
     function resize() {
       const vw = window.innerWidth || document.documentElement.clientWidth;
       const vh = window.innerHeight || document.documentElement.clientHeight;
       const scale = Math.min(vw / SW, vh / SH);
-      deck.style.transform = 'translate(-50%,-50%) scale(' + scale + ')';
+      deck.style.transform = 'scale(' + scale + ')';
+      deck.style.transformOrigin = 'center center';
     }
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', function(){ setTimeout(resize, 200); });
