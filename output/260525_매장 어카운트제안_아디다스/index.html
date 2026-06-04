@@ -60,6 +60,7 @@
     .dl-btns button { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; background: rgba(255,255,255,0.92); color: #1a1a1a; border: 1px solid #ddd; backdrop-filter: blur(4px); transition: background 0.2s; font-family: inherit; }
     .dl-btns button:hover { background: #fff; border-color: #aaa; }
     /* 공통 헤더 */
+    .nav-hint { position: fixed; bottom: 14px; right: 18px; font-size: 13px; color: rgba(255,255,255,0.55); z-index: 100; pointer-events: none; }
     .sh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-shrink: 0; }
     .sh-left { display: flex; align-items: center; gap: 14px; }
     .sh-num { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 10px; font-size: 22px; font-weight: 800; background: var(--accent); color: var(--white); }
@@ -81,9 +82,10 @@
     .bullet-text { font-size: var(--f-body); color: var(--gray-700); line-height: 1.55; }
   </style>
 </head>
-<body>
+<body tabindex="0">
   <div class="progress" id="progress" style="width:20%"></div>
   <div class="dl-btns"><button onclick="downloadPDF()">⬇ PDF</button><button onclick="downloadPPT()">⬇ PPT</button></div>
+  <div class="nav-hint">← → 키 또는 화면 터치로 이동</div>
   <div class="stage">
   <div class="slides-wrapper" id="deck">
 
@@ -405,6 +407,7 @@
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', function(){ setTimeout(resize, 200); });
     resize();
+    document.body.focus();
 
     if (screen.orientation && screen.orientation.lock) {
       screen.orientation.lock('landscape').catch(function(){});
@@ -423,7 +426,7 @@
       progress.style.width = ((current + 1) / total * 100) + '%';
     }
 
-    document.addEventListener('keydown', e => {
+    window.addEventListener('keydown', e => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
       if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(current - 1); }
     });
