@@ -319,8 +319,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>
-    const SW = 1920, SH = 1080;
-
     async function captureAllSlides() {
       const allSlides = document.querySelectorAll('.slide');
       const savedCur = (typeof current !== "undefined" ? current : (typeof cur !== "undefined" ? cur : 0));
